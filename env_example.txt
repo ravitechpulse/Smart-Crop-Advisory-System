@@ -1,0 +1,42 @@
+# Environment Variables for SmartCrop Advisory System
+
+# Flask Configuration
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+FLASK_ENV=development
+
+# Database Configuration
+DATABASE_URL=sqlite:///datasets/smartcrop.db
+
+# API Keys
+OPENWEATHER_API_KEY=your-openweather-api-key
+TWILIO_ACCOUNT_SID=your-twilio-account-sid
+TWILIO_AUTH_TOKEN=your-twilio-auth-token
+WHATSAPP_TOKEN=your-whatsapp-business-token
+
+# SMS/WhatsApp Configuration
+TWILIO_PHONE_NUMBER=+1234567890
+WHATSAPP_PHONE_NUMBER_ID=your-whatsapp-phone-id
+
+# Model Configuration
+MODEL_PATH=models/crop_recommendation_model.pkl
+SCALER_PATH=models/feature_scaler.pkl
+
+# Data Paths
+SOIL_DATA_PATH=datasets/soil_data.csv
+MARKET_DATA_PATH=datasets/market_prices.csv
+TRAINING_DATA_PATH=datasets/training_data.csv
+
+# Logging Configuration
+LOG_LEVEL=INFO
+LOG_FILE=logs/smartcrop.log
+
+# CORS Configuration
+CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+
+# Rate Limiting
+RATE_LIMIT_PER_MINUTE=60
+
+# Cache Configuration
+CACHE_TYPE=simple
+CACHE_DEFAULT_TIMEOUT=300

@@ -1,0 +1,41 @@
+district,soil_type,nitrogen,phosphorus,potassium,ph,rainfall,temperature,crop,yield
+Patiala,alluvial,25,18,220,7.2,650,28,Wheat,45
+Ludhiana,alluvial,28,20,225,7.4,600,29,Rice,52
+Amritsar,loamy,22,16,210,6.8,700,27,Rice,48
+Jalandhar,alluvial,26,19,215,7.1,650,28,Maize,38
+Fazilka,sandy,15,12,180,7.8,400,32,Bajra,25
+Bathinda,sandy loam,18,14,190,7.6,450,31,Cotton,8
+Moga,alluvial,27,19,220,7.3,600,29,Wheat,44
+Sangrur,alluvial,25,18,215,7.2,550,30,Wheat,42
+Firozpur,sandy,16,13,185,7.9,400,32,Cotton,7
+Hoshiarpur,loam to clay loam,30,22,240,6.5,800,26,Rice,55
+Kapurthala,alluvial,26,19,220,7.2,650,28,Potato,200
+Barnala,sandy loam,17,14,195,7.5,500,30,Mustard,15
+Tarn Taran,alluvial,24,17,205,7.0,720,27,Rice,50
+Gurdaspur,alluvial,29,21,230,6.9,750,27,Rice,53
+Rupnagar,alluvial,26,19,220,7.3,600,28,Wheat,43
+Mohali,alluvial,27,20,225,7.4,650,29,Maize,40
+Muktsar,sandy,16,13,185,7.7,450,31,Cotton,6
+Mansa,sandy loam,18,14,190,7.4,500,30,Cotton,7
+Faridkot,sandy,16,13,185,7.8,450,31,Bajra,24
+Sri Muktsar Sahib,sandy,16,13,185,7.8,450,31,Cotton,6
+Patiala,alluvial,20,15,200,7.0,650,28,Maize,35
+Ludhiana,alluvial,30,22,230,7.5,600,29,Wheat,46
+Amritsar,loamy,18,14,195,6.6,700,27,Vegetables,180
+Jalandhar,alluvial,24,17,210,7.0,650,28,Sugarcane,450
+Fazilka,sandy,12,10,170,7.9,400,32,Cotton,5
+Bathinda,sandy loam,15,12,185,7.5,450,31,Bajra,22
+Moga,alluvial,29,21,225,7.4,600,29,Rice,51
+Sangrur,alluvial,23,16,205,7.1,550,30,Maize,37
+Firozpur,sandy,14,11,175,7.8,400,32,Bajra,23
+Hoshiarpur,loam to clay loam,32,24,245,6.4,800,26,Vegetables,220
+Kapurthala,alluvial,25,18,215,7.1,650,28,Wheat,44
+Barnala,sandy loam,19,15,200,7.6,500,30,Cotton,8
+Tarn Taran,alluvial,26,18,210,6.9,720,27,Wheat,45
+Gurdaspur,alluvial,31,23,235,6.8,750,27,Rice,54
+Rupnagar,alluvial,24,17,210,7.2,600,28,Maize,39
+Mohali,alluvial,25,19,220,7.3,650,29,Wheat,45
+Muktsar,sandy,17,14,190,7.8,450,31,Bajra,26
+Mansa,sandy loam,20,16,200,7.5,500,30,Mustard,16
+Faridkot,sandy,15,12,180,7.9,450,31,Cotton,6
+Sri Muktsar Sahib,sandy,17,14,190,7.9,450,31,Bajra,25

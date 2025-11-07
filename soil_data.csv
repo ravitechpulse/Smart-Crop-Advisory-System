@@ -1,0 +1,21 @@
+district,soil_type,ph_min,ph_max,nitrogen_avg,phosphorus_avg,potassium_avg,rainfall,temperature,region
+Patiala,alluvial,6.8,7.6,25,18,220,650,28,Malwa
+Ludhiana,alluvial,7.0,7.8,28,20,225,600,29,Malwa
+Amritsar,loamy,6.5,7.5,22,16,210,700,27,Majha
+Jalandhar,alluvial,6.8,7.6,26,19,215,650,28,Doaba
+Fazilka,sandy,7.2,8.0,15,12,180,400,32,Malwa
+Bathinda,sandy loam,7.4,8.1,18,14,190,450,31,Malwa
+Moga,alluvial,6.8,7.6,27,19,220,600,29,Malwa
+Sangrur,alluvial,6.9,7.7,25,18,215,550,30,Malwa
+Firozpur,sandy,7.3,8.2,16,13,185,400,32,Malwa
+Hoshiarpur,loam to clay loam,6.3,7.4,30,22,240,800,26,Doaba
+Kapurthala,alluvial,6.8,7.6,26,19,220,650,28,Doaba
+Barnala,sandy loam,7.2,8.0,17,14,195,500,30,Malwa
+Tarn Taran,alluvial,6.7,7.5,24,17,205,720,27,Majha
+Gurdaspur,alluvial,6.6,7.4,29,21,230,750,27,Majha
+Rupnagar,alluvial,6.9,7.7,26,19,220,600,28,Malwa
+Mohali,alluvial,6.8,7.6,27,20,225,650,29,Malwa
+Muktsar,sandy,7.3,8.1,16,13,185,450,31,Malwa
+Mansa,sandy loam,7.2,8.0,18,14,190,500,30,Malwa
+Faridkot,sandy,7.3,8.1,16,13,185,450,31,Malwa
+Sri Muktsar Sahib,sandy,7.3,8.1,16,13,185,450,31,Malwa

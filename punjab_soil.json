@@ -1,0 +1,86 @@
+{
+  "patiala": {
+    "soilType": "alluvial",
+    "ph": { "min": 6.8, "max": 7.6 },
+    "kharif": ["Rice", "Maize", "Cotton", "Bajra"],
+    "rabi": ["Wheat", "Mustard", "Gram"],
+    "notes": "Irrigated tracts; rice-wheat rotation common"
+  },
+  "ludhiana": {
+    "soilType": "alluvial",
+    "ph": { "min": 7.0, "max": 7.8 },
+    "kharif": ["Rice", "Maize", "Cotton"],
+    "rabi": ["Wheat", "Mustard"],
+    "notes": "High productivity zone; good mandi connectivity"
+  },
+  "amritsar": {
+    "soilType": "loamy",
+    "ph": { "min": 6.5, "max": 7.5 },
+    "kharif": ["Rice", "Maize"],
+    "rabi": ["Wheat", "Vegetables"],
+    "notes": "Loamy soils; vegetables feasible in peri-urban belts"
+  },
+  "jalandhar": {
+    "soilType": "alluvial",
+    "ph": { "min": 6.8, "max": 7.6 },
+    "kharif": ["Rice", "Maize", "Cotton"],
+    "rabi": ["Wheat", "Potato"],
+    "notes": "Potato in rabi observed; rice-wheat prevalent"
+  },
+  "fazilka": {
+    "soilType": "sandy",
+    "ph": { "min": 7.2, "max": 8.0 },
+    "kharif": ["Bajra", "Cotton"],
+    "rabi": ["Wheat", "Mustard"],
+    "notes": "Sandy tracts; drought-tolerant kharif preferred"
+  },
+  "bathinda": {
+    "soilType": "sandy loam",
+    "ph": { "min": 7.4, "max": 8.1 },
+    "kharif": ["Cotton", "Bajra"],
+    "rabi": ["Wheat", "Mustard"],
+    "notes": "South-west zone; cotton prominent"
+  },
+  "moga": {
+    "soilType": "alluvial",
+    "ph": { "min": 6.8, "max": 7.6 },
+    "kharif": ["Rice", "Maize"],
+    "rabi": ["Wheat", "Potato"],
+    "notes": "Canal irrigated; rice-wheat rotation"
+  },
+  "sangrur": {
+    "soilType": "alluvial",
+    "ph": { "min": 6.9, "max": 7.7 },
+    "kharif": ["Rice", "Maize"],
+    "rabi": ["Wheat", "Mustard"],
+    "notes": "Central Punjab"
+  },
+  "firozpur": {
+    "soilType": "sandy",
+    "ph": { "min": 7.3, "max": 8.2 },
+    "kharif": ["Cotton", "Bajra"],
+    "rabi": ["Wheat", "Gram"],
+    "notes": "Arid tendency; cotton-bajra"
+  },
+  "hoshiarpur": {
+    "soilType": "loam to clay loam",
+    "ph": { "min": 6.3, "max": 7.4 },
+    "kharif": ["Maize", "Rice"],
+    "rabi": ["Wheat", "Vegetables"],
+    "notes": "Kandi belt pockets; horticulture potential"
+  },
+  "kapurthala": {
+    "soilType": "alluvial",
+    "ph": { "min": 6.8, "max": 7.6 },
+    "kharif": ["Rice", "Maize"],
+    "rabi": ["Wheat", "Potato"],
+    "notes": "Doaba region"
+  },
+  "barnala": {
+    "soilType": "sandy loam",
+    "ph": { "min": 7.2, "max": 8.0 },
+    "kharif": ["Cotton", "Bajra"],
+    "rabi": ["Wheat", "Mustard"],
+    "notes": "South-west; cotton-wheat system"
+  }
+}

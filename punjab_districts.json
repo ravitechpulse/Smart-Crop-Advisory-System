@@ -1,0 +1,29 @@
+{
+  "districts": [
+    {"name": "Patiala", "region": "Malwa", "soilType": "alluvial", "code": "PTA"},
+    {"name": "Ludhiana", "region": "Malwa", "soilType": "alluvial", "code": "LUD"},
+    {"name": "Amritsar", "region": "Majha", "soilType": "loamy", "code": "ASR"},
+    {"name": "Jalandhar", "region": "Doaba", "soilType": "alluvial", "code": "JAL"},
+    {"name": "Fazilka", "region": "Malwa", "soilType": "sandy", "code": "FZK"},
+    {"name": "Bathinda", "region": "Malwa", "soilType": "sandy loam", "code": "BTI"},
+    {"name": "Moga", "region": "Malwa", "soilType": "alluvial", "code": "MOG"},
+    {"name": "Sangrur", "region": "Malwa", "soilType": "alluvial", "code": "SGR"},
+    {"name": "Firozpur", "region": "Malwa", "soilType": "sandy", "code": "FZP"},
+    {"name": "Hoshiarpur", "region": "Doaba", "soilType": "loam to clay loam", "code": "HSR"},
+    {"name": "Kapurthala", "region": "Doaba", "soilType": "alluvial", "code": "KPT"},
+    {"name": "Barnala", "region": "Malwa", "soilType": "sandy loam", "code": "BRL"},
+    {"name": "Tarn Taran", "region": "Majha", "soilType": "alluvial", "code": "TTA"},
+    {"name": "Gurdaspur", "region": "Majha", "soilType": "alluvial", "code": "GSP"},
+    {"name": "Rupnagar", "region": "Malwa", "soilType": "alluvial", "code": "RPR"},
+    {"name": "Mohali", "region": "Malwa", "soilType": "alluvial", "code": "MHL"},
+    {"name": "Muktsar", "region": "Malwa", "soilType": "sandy", "code": "MKS"},
+    {"name": "Mansa", "region": "Malwa", "soilType": "sandy loam", "code": "MNS"},
+    {"name": "Faridkot", "region": "Malwa", "soilType": "sandy", "code": "FDK"},
+    {"name": "Sri Muktsar Sahib", "region": "Malwa", "soilType": "sandy", "code": "SMS"}
+  ],
+  "regions": {
+    "Malwa": {"soilType": "alluvial", "climate": "semi-arid", "crops": ["Wheat", "Cotton", "Rice", "Maize"]},
+    "Majha": {"soilType": "alluvial", "climate": "humid", "crops": ["Rice", "Wheat", "Maize", "Vegetables"]},
+    "Doaba": {"soilType": "alluvial", "climate": "moderate", "crops": ["Rice", "Wheat", "Sugarcane", "Potato"]}
+  }
+}

@@ -1,0 +1,1279 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmartCrop Advisory — Demo</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="preconnect" href="https://www.youtube.com" crossorigin>
+  <link rel="preload" as="image" href="../assets/images/hero_farmer.jpg">
+
+  <!-- Bootstrap (styling) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Custom CSS (local file) -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="../assets/images/hero_farmer.jpg" alt="logo" width="44" height="44" class="rounded me-2 object-fit-cover">
+      <div>
+        <strong data-i18n="brand_title">SmartCrop</strong>
+        <div class="small text-muted" data-i18n="brand_sub">Advisory — SIH 2025 (25010)</div>
+      </div>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCollapse">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navCollapse">
+      <ul class="navbar-nav ms-auto me-3">
+        <li class="nav-item"><a class="nav-link" href="#hero" data-i18n="nav_home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#features" data-i18n="nav_features">Features</a></li>
+        <li class="nav-item"><a class="nav-link" href="#demo" data-i18n="nav_demo">Advisory</a></li>
+        <li class="nav-item"><a class="nav-link" href="#market" data-i18n="nav_market">Market</a></li>
+        <li class="nav-item"><a class="nav-link" href="#weather" data-i18n="nav_weather">Weather</a></li>
+        <li class="nav-item"><a class="nav-link" href="#seasonality" data-i18n="nav_seasonality">Seasonality</a></li>
+        <li class="nav-item"><a class="nav-link" href="#cases" data-i18n="nav_cases">Success</a></li>
+        <li class="nav-item"><a class="nav-link" href="#help" data-i18n="nav_help">Help/IVR</a></li>
+      </ul>
+
+      <div class="d-flex align-items-center">
+        <select id="langSelect" class="form-select form-select-sm lang-select me-2" aria-label="language">
+          <option value="en">English</option>
+          <option value="hi">हिंदी</option>
+          <option value="pa">ਪੰਜਾਬੀ</option>
+          <option value="kn">ಕನ್ನಡ</option>
+          <option value="te">తెలుగు</option>
+        </select>
+
+        <button class="btn btn-outline-primary btn-sm" id="demoModeBtn" data-i18n="btn_demoMode">Demo Mode</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- GLOBAL PROGRESS BAR (shows working %) -->
+<div id="appProgress" class="progress position-fixed w-100" style="top:56px; height:6px; z-index:1030; display:none">
+  <div id="appProgressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+  
+</div>
+
+<!-- HERO -->
+<section id="hero" class="pt-5 pb-4">
+  <div class="container pt-5">
+    <div class="row align-items-center gy-4">
+      <!-- LEFT -->
+      <div class="col-lg-6">
+        <h1 class="display-5 fw-bold" data-i18n="hero_title">Smart Crop Advisory for Farmers</h1>
+        <p class="lead text-muted" data-i18n="hero_sub">Personalized crop, fertilizer and pest guidance — voice, images and local-language support.</p>
+
+        <div class="d-flex flex-wrap gap-2 mt-3">
+          <a class="btn btn-lg btn-primary rounded-pill d-flex align-items-center gap-2" href="#demo">
+            <i class="bi bi-lightning-charge-fill"></i>
+            <span data-i18n="cta_getstarted">Get My Farm Advice</span>
+          </a>
+          <button class="btn btn-lg btn-outline-secondary rounded-pill d-flex align-items-center gap-2" id="noSoilBtn">
+            <i class="bi bi-geo-alt-fill"></i>
+            <span data-i18n="cta_nosoil">I don't have soil report</span>
+          </button>
+          <button class="btn btn-lg btn-success rounded-pill d-flex align-items-center gap-2" id="voiceGuideBtn">
+            <i class="bi bi-megaphone-fill"></i>
+            <span data-i18n="cta_voiceguide">Voice guide</span>
+          </button>
+          <button class="btn btn-lg btn-info rounded-pill d-flex align-items-center gap-2" id="voiceNavBtn">
+            <i class="bi bi-compass-fill"></i>
+            <span data-i18n="cta_voicenav">Voice navigation</span>
+          </button>
+          <div class="mt-2 d-flex gap-2 justify-content-center">
+            <button class="btn btn-sm btn-outline-secondary" onclick="if(window.prevVoiceSection) window.prevVoiceSection()">
+              <i class="bi bi-arrow-left"></i> Previous
+            </button>
+            <button class="btn btn-sm btn-outline-secondary" onclick="if(window.nextVoiceSection) window.nextVoiceSection()">
+              Next <i class="bi bi-arrow-right"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-primary" onclick="if(window.readFullPage) window.readFullPage()">
+              <i class="bi bi-book"></i> Read Full Page
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-3 small text-muted">
+          <i class="bi bi-info-circle" aria-hidden="true"></i>
+          <span data-i18n="hero_note">If you don't have a report we will help with local defaults, request a free test, or run a quick DIY test.</span>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="col-lg-6 text-center">
+        <img src="../assets/images/hero_farmer.jpg" alt="Farmer in field" class="img-fluid rounded-3 shadow-sm" loading="eager" width="700" height="420">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK 3-STEP STRIP (low-literacy flow) -->
+<section class="py-3 bg-light border-top border-bottom">
+  <div class="container">
+    <div class="row g-3 text-center">
+      <div class="col-12 col-md-4">
+        <div class="p-3 bg-white rounded shadow-sm h-100 d-flex align-items-center justify-content-center gap-2">
+          <i class="bi bi-1-circle-fill text-primary fs-3"></i>
+          <div class="fw-semibold" data-i18n="step1_title">Tell us district & taluk</div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="p-3 bg-white rounded shadow-sm h-100 d-flex align-items-center justify-content-center gap-2">
+          <i class="bi bi-2-circle-fill text-primary fs-3"></i>
+          <div class="fw-semibold" data-i18n="step2_title">Add NPK/pH or skip</div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="p-3 bg-white rounded shadow-sm h-100 d-flex align-items-center justify-content-center gap-2">
+          <i class="bi bi-3-circle-fill text-primary fs-3"></i>
+          <div class="fw-semibold" data-i18n="step3_title">Hear advice & save</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="py-4 bg-white">
+  <div class="container">
+    <h3 class="mb-3" data-i18n="features_title">Key Features</h3>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="../assets/images/soil_close.jpg" class="card-img-top feature-img" alt="Soil" loading="lazy" decoding="async">
+          <div class="card-body">
+            <h5 data-i18n="feat_soil">Soil Insights</h5>
+            <p class="small text-muted" data-i18n="feat_soil_sub">Enter N-P-K and pH or use district defaults for quick advice.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="../assets/images/weather_sky.jpg" class="card-img-top feature-img" alt="Weather" loading="lazy" decoding="async">
+          <div class="card-body">
+            <h5 data-i18n="feat_weather">Weather Alerts</h5>
+            <p class="small text-muted" data-i18n="feat_weather_sub">Forecast-aware advisories: sowing, irrigation and alerts.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="../assets/images/market.jpg" class="card-img-top feature-img" alt="Market" loading="lazy" decoding="async">
+          <div class="card-body">
+            <h5 data-i18n="feat_market">Market Prices</h5>
+            <p class="small text-muted" data-i18n="feat_market_sub">Local mandi prices and trending crops for better selling decisions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+
+<!-- HOW IT WORKS -->
+<section class="py-4 bg-light">
+  <div class="container">
+    <h3 class="mb-3 text-center" data-i18n="how_title">How it works</h3>
+    <div class="row g-3 text-center">
+      <div class="col-md-4">
+        <div class="p-4">
+          <i class="bi bi-geo-alt-fill text-primary fs-1 mb-3"></i>
+          <h5 data-i18n="how_step1">Tell us your location</h5>
+          <p class="small text-muted" data-i18n="how_step1_desc">Enter district and taluk. We use regional soil data if you don't have a report.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-4">
+          <i class="bi bi-flask text-primary fs-1 mb-3"></i>
+          <h5 data-i18n="how_step2">Add soil details (optional)</h5>
+          <p class="small text-muted" data-i18n="how_step2_desc">NPK values and pH if available, or use voice input to speak them.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-4">
+          <i class="bi bi-lightning-charge-fill text-primary fs-1 mb-3"></i>
+          <h5 data-i18n="how_step3">Get instant advice</h5>
+          <p class="small text-muted" data-i18n="how_step3_desc">Crop recommendations, fertilizer gaps, weather alerts, and market prices.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO area: left=form, right=recommendations -->
+<section id="demo" class="py-5">
+  <div class="container">
+    <div class="row g-4">
+      <!-- FORM column (left) -->
+      <div class="col-lg-6">
+        <div class="card p-4 shadow-sm">
+          <h5 data-i18n="demo_title">Try demo — enter field details</h5>
+
+          <form id="adviceForm" class="mt-3" autocomplete="off">
+            <div class="row g-2">
+              <div class="col-12 col-md-6">
+                <label class="form-label" data-i18n="label_district">Punjab District</label>
+                <select class="form-select" id="district">
+                  <option value="">Select District</option>
+                </select>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="form-label" data-i18n="label_taluka">Taluk / Tehsil</label>
+                <input type="text" class="form-control" id="taluk" placeholder="e.g. Samana" />
+              </div>
+
+              <div class="col-6 col-md-3">
+                <label class="form-label" data-i18n="label_n">Nitrogen (N)</label>
+                <input type="number" class="form-control" id="nitrogen" placeholder="20" />
+              </div>
+              <div class="col-6 col-md-3">
+                <label class="form-label" data-i18n="label_p">Phosphorus (P)</label>
+                <input type="number" class="form-control" id="phosphorus" placeholder="15" />
+              </div>
+              <div class="col-6 col-md-3">
+                <label class="form-label" data-i18n="label_k">Potassium (K)</label>
+                <input type="number" class="form-control" id="potassium" placeholder="30" />
+              </div>
+              <div class="col-6 col-md-3">
+                <label class="form-label" data-i18n="label_ph">Soil pH</label>
+                <input type="number" step="0.1" class="form-control" id="ph" placeholder="6.8" />
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="form-label" data-i18n="label_cropHistory">Last crop grown (optional)</label>
+                <input type="text" class="form-control" id="lastCrop" placeholder="e.g. Wheat" />
+              </div>
+
+              <div class="col-12 col-md-6 d-flex align-items-end gap-2">
+                <input id="soilFile" type="file" accept=".pdf,.jpg,.png" style="display:none" />
+                <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('soilFile').click()" data-i18n="btn_upload">Upload soil report</button>
+                <button class="btn btn-warning" type="button" data-bs-toggle="modal" data-bs-target="#noSoilModal"><i class="bi bi-geo-alt"></i> <span data-i18n="btn_no_soil_modal">No soil report?</span></button>
+                <button class="btn btn-primary ms-auto" type="submit" data-i18n="btn_recommend">Get Recommendations</button>
+              </div>
+
+              <div class="col-12 mt-2">
+                <div class="d-flex gap-2 align-items-center flex-wrap">
+                  <button type="button" class="btn btn-sm btn-light" id="playIntroBtn"><span data-i18n="btn_playIntro">Play intro</span></button>
+                  <button type="button" class="btn btn-sm btn-light" id="uploadImgBtn" onclick="document.getElementById('pestImage').click()"><span data-i18n="btn_uploadImg">Upload crop image</span></button>
+                  <input type="file" id="pestImage" accept="image/*" style="display:none" />
+                  <button type="button" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1" id="voiceInputBtn"><i class="bi bi-mic-fill"></i><span data-i18n="btn_voice_input">Voice input</span></button>
+                  <span id="voiceStatus" class="small text-muted" style="display:none" data-i18n="voice_listening">Listening…</span>
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- RECOMMENDATIONS column (right) -->
+      <div class="col-lg-6">
+        <div class="card p-3 shadow-sm result-card">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0" data-i18n="results_title">Recommendations</h5>
+            <div class="small text-muted" id="recProgressText" style="display:none">0%</div>
+          </div>
+
+          <div id="resultsIntro" class="small text-muted" data-i18n="results_intro">Fill N,P,K and pH then click Get Recommendations to see tailored advice.</div>
+
+          <div id="recContent" style="display:none" class="mt-3">
+            <div class="d-flex gap-3 align-items-start">
+              <img id="recCropImg" src="../assets/images/crop_recommend.jpg" alt="Crop" width="120" class="rounded" />
+              <div>
+                <h6 id="recCrop">Top pick: —</h6>
+                <p id="recDesc" class="small text-muted">—</p>
+                <p id="recFert" class="small text-muted">—</p>
+                <p id="recPest" class="small text-muted">—</p>
+                <div class="mt-2 d-flex flex-wrap gap-2">
+                  <button class="btn btn-sm btn-outline-primary" id="saveBtn">Save</button>
+                  <button class="btn btn-sm btn-success" id="notifyBtn">Notify (WhatsApp)</button>
+                  <button class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1" id="ttsBtn"><i class="bi bi-volume-up-fill"></i><span data-i18n="btn_listen">Listen</span></button>
+                </div>
+              </div>
+            </div>
+
+            <hr />
+            <h6 class="mb-2" data-i18n="market_title">Market snapshot</h6>
+            <div id="marketTable" class="small text-muted">Loading market data...</div>
+
+            <hr />
+            <h6 class="mb-2" data-i18n="weather_title">Weather (demo)</h6>
+            <div id="weatherBox" class="small text-muted">Weather info will appear here (add API key to enable).</div>
+          </div>
+
+          <div class="small text-muted mt-2">* Demo fallback rules used when lab report is not available.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MY ADVISORIES (simple local saves) -->
+<section id="saved" class="py-4 bg-white">
+  <div class="container">
+    <h3 class="mb-2" data-i18n="saved_title">My Advisories</h3>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <div id="savedCount" class="small text-muted">0</div>
+      <button class="btn btn-sm btn-outline-danger" id="clearSaved">Clear</button>
+    </div>
+    <div id="savedList" class="small text-muted">No saved advisories yet.</div>
+  </div>
+</section>
+
+<!-- MARKET (dedicated section) -->
+<section id="market" class="py-4">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h3 class="mb-0" data-i18n="market_title">Market snapshot</h3>
+      <div>
+        <button class="btn btn-sm btn-outline-primary me-2" onclick="if(window.loadMarketFromBackend) window.loadMarketFromBackend()">
+          <i class="bi bi-arrow-clockwise"></i> Refresh
+        </button>
+        <button class="btn btn-sm btn-outline-success" onclick="if(window.speakText) window.speakText('Market prices for various crops are displayed here. You can see current prices for wheat, rice, cotton, and other commodities from different mandis.', document.getElementById('langSelect')?.value || 'en')">
+          <i class="bi bi-megaphone"></i> <span data-i18n="btn_listen">Listen</span>
+        </button>
+      </div>
+    </div>
+    <div id="marketTableMain" class="small text-muted">Loading market data...</div>
+  </div>
+</section>
+
+<!-- WEATHER (dedicated section) -->
+<section id="weather" class="py-4 bg-light">
+  <div class="container">
+    <h3 class="mb-2" data-i18n="weather_title">Weather (demo)</h3>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="card p-3 shadow-sm">
+          <div id="weatherBoxMain" class="small text-muted">Weather info will appear here (add API key to enable).</div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-3 shadow-sm">
+          <div class="small" data-i18n="weather_tip">Tip: Save advisory and enable alerts to get weather warnings on WhatsApp/SMS.</div>
+          <div class="mt-2">
+            <button class="btn btn-sm btn-outline-primary me-2" onclick="if(window.loadWeatherFromBackend) window.loadWeatherFromBackend('patiala')">
+              <i class="bi bi-arrow-clockwise"></i> Refresh Weather
+            </button>
+            <button class="btn btn-sm btn-outline-success" onclick="if(window.speakText) window.speakText('Current weather information is displayed here. Temperature, humidity, and wind conditions are shown for your selected district.', document.getElementById('langSelect')?.value || 'en')">
+              <i class="bi bi-megaphone"></i> <span data-i18n="btn_listen">Listen</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEASONALITY -->
+<section id="seasonality" class="py-4">
+  <div class="container">
+    <h3 class="mb-3" data-i18n="seasonality_title">Seasonality (Punjab)</h3>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="../assets/images/kharif.jpg" class="card-img-top" alt="Kharif" loading="lazy" width="300" height="200">
+          <div class="card-body">
+            <h6 data-i18n="season_kharif">Kharif (Jun–Oct)</h6>
+            <ul class="small text-muted mb-0">
+              <li data-i18n="season_kharif_items">Rice, Maize, Cotton, Bajra</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="../assets/images/rabi.jpg" class="card-img-top" alt="Rabi" loading="lazy" width="300" height="200">
+          <div class="card-body">
+            <h6 data-i18n="season_rabi">Rabi (Nov–Mar)</h6>
+            <ul class="small text-muted mb-0">
+              <li data-i18n="season_rabi_items">Wheat, Mustard, Gram</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="../assets/images/zaid.jpg" class="card-img-top" alt="Zaid" loading="lazy" width="300" height="200">
+          <div class="card-body">
+            <h6 data-i18n="season_zaid">Zaid (Apr–Jun)</h6>
+            <ul class="small text-muted mb-0">
+              <li data-i18n="season_zaid_items">Vegetables, Fodder</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HELP / IVR -->
+<section id="help" class="py-4 bg-white">
+  <div class="container">
+    <h3 class="mb-3" data-i18n="help_title">Help & IVR</h3>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="card p-3 shadow-sm h-100">
+          <h6 class="mb-2" data-i18n="help_ivr_head">Toll-free (Demo)</h6>
+          <div class="small text-muted" data-i18n="help_ivr_text">Call our IVR to hear advice in your language and get an SMS/WhatsApp link.</div>
+          <a href="tel:1800-000-000" class="btn btn-outline-primary mt-2 d-inline-flex align-items-center gap-2">
+            <i class="bi bi-telephone"></i><span data-i18n="help_call_now">Call now</span>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-3 shadow-sm h-100">
+          <h6 class="mb-2" data-i18n="help_assist_head">On-page voice help</h6>
+          <div class="small text-muted" data-i18n="help_assist_text">Use the voice buttons to hear instructions and your recommendations.</div>
+          <div class="d-flex gap-2 mt-2">
+            <button class="btn btn-success btn-sm d-inline-flex align-items-center gap-2" id="helpPlay">
+              <i class="bi bi-megaphone"></i><span data-i18n="help_play_voice">Play help</span>
+            </button>
+            <button class="btn btn-primary btn-sm d-inline-flex align-items-center gap-2" id="phoneBtn">
+              <i class="bi bi-phone"></i><span data-i18n="btn_phone_alerts">Phone alerts</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="py-4 bg-light">
+  <div class="container">
+    <h3 class="mb-3 text-center" data-i18n="faq_title">Frequently Asked Questions</h3>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="card p-3 shadow-sm">
+          <h6 data-i18n="faq_q1">What if I don't have a soil report?</h6>
+          <p class="small text-muted mb-0" data-i18n="faq_a1">We use regional soil defaults for your district. You can also request a free test or do a quick DIY pH test.</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-3 shadow-sm">
+          <h6 data-i18n="faq_q2">Is the advice free?</h6>
+          <p class="small text-muted mb-0" data-i18n="faq_a2">Yes, this is a free demo for small and marginal farmers. We also provide toll-free helpline support.</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-3 shadow-sm">
+          <h6 data-i18n="faq_q3">Can I use voice input?</h6>
+          <p class="small text-muted mb-0" data-i18n="faq_a3">Yes, click the microphone button and speak your details in your preferred language.</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-3 shadow-sm">
+          <h6 data-i18n="faq_q4">How accurate are the recommendations?</h6>
+          <p class="small text-muted mb-0" data-i18n="faq_a4">Based on regional soil data and agricultural best practices. Always consult local experts for final decisions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS (learning) -->
+<section class="py-4 bg-white">
+  <div class="container">
+    <h3 class="mb-3" data-i18n="videos_title">Learn with videos</h3>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="ratio ratio-16x9 rounded shadow-sm">
+          <iframe data-src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Fertilizer best practices" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="ratio ratio-16x9 rounded shadow-sm">
+          <iframe data-src="https://www.youtube.com/embed/9bZkp7q19f0" title="Pest identification basics" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUCCESS CASES -->
+<section id="cases" class="py-4 bg-white">
+  <div class="container">
+    <h3 class="mb-4" data-i18n="cases_title">Success Cases</h3>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="../assets/images/case_lakshmi.jpg" class="card-img-top case-img" alt="Lakshmi" loading="lazy" decoding="async">
+          <div class="card-body">
+            <h6>Lakshmi — Maize (Demo)</h6>
+            <p class="small text-muted">Used balanced fertilizer schedule and improved yield by 18%.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="../assets/images/case_raju.jpg" class="card-img-top case-img" alt="Raju" loading="lazy" decoding="async">
+          <div class="card-body">
+            <h6>Raju — Groundnut (Demo)</h6>
+            <p class="small text-muted">Switched to drought-tolerant variety (demo result).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="../assets/images/case_sita.jpg" class="card-img-top case-img" alt="Sita" loading="lazy" decoding="async">
+          <div class="card-body">
+            <h6>Sita — Vegetables (Demo)</h6>
+            <p class="small text-muted">Adopted IPM suggestions and reduced pesticide use.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / FOOTER -->
+<section id="contact" class="py-4">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <div><strong>Website created by the team of Annadata's Legacy</strong></div>
+        <div class="small text-muted"><strong>Team Lead:</strong> RAVI KUMAR S J</div>
+        <div class="small text-muted"><strong>Team Members:</strong> Shalom Raj, Renuka Prasad</div>
+        <div class="small text-muted">Email: rjayaram@gitam.in</div>
+        <div class="small text-muted">Toll-free (demo): 1800-XXX-XXXX (IVR prototype)</div>
+      </div>
+      <div class="text-end">
+        <a href="#" class="me-3">Privacy</a>
+        <a href="#" class="me-3">Terms</a>
+        <a href="#">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="py-3 text-center small text-muted">
+  Prototype for Smart India Hackathon 2025 — SmartCrop Advisory (Demo)
+</footer>
+
+<!-- audio placeholders (place mp3s in assets/audio/) -->
+<audio id="audioIntro_en" src="../assets/audio/intro_en.mp3"></audio>
+<audio id="audioIntro_hi" src="../assets/audio/intro_hi.mp3"></audio>
+<audio id="audioIntro_pa" src="../assets/audio/intro_pa.mp3"></audio>
+<audio id="audioIntro_kn" src="../assets/audio/intro_kn.mp3"></audio>
+<audio id="audioIntro_te" src="../assets/audio/intro_te.mp3"></audio>
+
+<!-- Bootstrap JS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script defer src="js/tts.js"></script>
+  <script defer src="js/app.js"></script>
+  <script defer src="js/api-integration.js"></script>
+  <script defer src="js/voice-nav.js"></script>
+  <script defer src="js/market-api.js"></script>
+  <script defer src="js/weather-api.js"></script>
+
+<!-- TRANSLATION + Demo logic (runs after DOM loaded) -->
+<script>
+/* ------------- TRANSLATIONS ------------- */
+/* Full translations for UI keys (EN, HI, PA, KN, TE) */
+const i18n = {
+  en: {
+    brand_title:'SmartCrop', brand_sub:'Advisory — SIH 2025 (25010)',
+    nav_home:'Home', nav_features:'Features', nav_demo:'Advisory', nav_market:'Market', nav_weather:'Weather', nav_seasonality:'Seasonality', nav_cases:'Success', nav_help:'Help/IVR', nav_contact:'Contact',
+    hero_title:'Smart Crop Advisory for Farmers', hero_sub:'Personalized crop, fertilizer and pest guidance — voice, images and local-language support.',
+    cta_getstarted:'Get My Farm Advice', cta_nosoil:"I don't have soil report", hero_note:'If you do not have a lab report we will help request a free test or run a quick field test.',
+    features_title:'Key Features', feat_soil:'Soil Insights', feat_soil_sub:'Enter N-P-K and pH or use district defaults for quick advice.',
+    feat_weather:'Weather Alerts', feat_weather_sub:'Forecast-aware advisories: sowing, irrigation and alerts.',
+    feat_market:'Market Prices', feat_market_sub:'Local mandi prices and trending crops for better selling decisions.',
+    demo_title:'Try demo — enter field details', label_district:'District', label_taluka:'Taluk / Tehsil', label_n:'Nitrogen (N)', label_p:'Phosphorus (P)', label_k:'Potassium (K)', label_ph:'Soil pH',
+    label_cropHistory:'Last crop grown (optional)', btn_upload:'Upload soil report', btn_recommend:'Get Recommendations', btn_playIntro:'Play intro', btn_uploadImg:'Upload crop image',
+    results_title:'Recommendations', results_intro:'Fill N,P,K and pH then click Get Recommendations to see tailored advice.', cases_title:'Success Cases',
+    btn_demoMode:'Demo Mode', contact_team:'Team lead:',
+    cta_voiceguide:'Voice guide', cta_voicenav:'Voice navigation', btn_phone_alerts:'Phone alerts',
+    step1_title:'Tell us district & taluk', step2_title:'Add NPK/pH or skip', step3_title:'Hear advice & save',
+    market_title:'Market snapshot', weather_title:'Weather (demo)', videos_title:'Learn with videos', btn_listen:'Listen',
+    btn_no_soil_modal:'No soil report?', weather_tip:'Tip: Save advisory and enable alerts to get weather warnings on WhatsApp/SMS.',
+    seasonality_title:'Seasonality (Punjab)', season_kharif:'Kharif (Jun–Oct)', season_rabi:'Rabi (Nov–Mar)', season_zaid:'Zaid (Apr–Jun)',
+    season_kharif_items:'Rice, Maize, Cotton, Bajra', season_rabi_items:'Wheat, Mustard, Gram', season_zaid_items:'Vegetables, Fodder',
+    help_title:'Help & IVR', help_ivr_head:'Toll-free (Demo)', help_ivr_text:'Call our IVR to hear advice in your language and get an SMS/WhatsApp link.', help_call_now:'Call now',
+    help_assist_head:'On-page voice help', help_assist_text:'Use the voice buttons to hear instructions and your recommendations.', help_play_voice:'Play help',
+    saved_title:'My Advisories',
+    how_title:'How it works', how_step1:'Tell us your location', how_step1_desc:'Enter district and taluk. We use regional soil data if you don\'t have a report.',
+    how_step2:'Add soil details (optional)', how_step2_desc:'NPK values and pH if available, or use voice input to speak them.',
+    how_step3:'Get instant advice', how_step3_desc:'Crop recommendations, fertilizer gaps, weather alerts, and market prices.',
+    faq_title:'Frequently Asked Questions', faq_q1:'What if I don\'t have a soil report?', faq_a1:'We use regional soil defaults for your district. You can also request a free test or do a quick DIY pH test.',
+    faq_q2:'Is the advice free?', faq_a2:'Yes, this is a free demo for small and marginal farmers. We also provide toll-free helpline support.',
+    faq_q3:'Can I use voice input?', faq_a3:'Yes, click the microphone button and speak your details in your preferred language.',
+    faq_q4:'How accurate are the recommendations?', faq_a4:'Based on regional soil data and agricultural best practices. Always consult local experts for final decisions.',
+    btn_voice_input:'Voice input', voice_listening:'Listening…'
+  },
+  hi: {
+    brand_title:'SmartCrop', brand_sub:'सलाह — SIH 2025 (25010)',
+    nav_home:'होम', nav_features:'विशेषताएँ', nav_demo:'सलाह', nav_market:'बाज़ार', nav_weather:'मौसम', nav_seasonality:'मौसमी', nav_cases:'सफलता', nav_help:'मदद/IVR', nav_contact:'संपर्क',
+    hero_title:'किसानों के लिए स्मार्ट क्रॉप सलाह', hero_sub:'व्यक्तिगत फसल, उर्वरक और कीट सलाह — आवाज और स्थानीय भाषा समर्थन के साथ।',
+    cta_getstarted:'मेरी फ़सल की सलाह', cta_nosoil:'मेरे पास मिट्टी रिपोर्ट नहीं है', hero_note:'यदि आपके पास लैब रिपोर्ट नहीं है तो हम मुफ्त परीक्षण के लिए अनुरोध करने या फ़ील्ड टेस्ट चलाने में मदद करेंगे।',
+    features_title:'मुख्य विशेषताएँ', feat_soil:'मिट्टी जानकारी', feat_soil_sub:'त्वरित सलाह के लिए N-P-K और pH दर्ज करें या जिले के डिफ़ॉल्ट उपयोग करें।',
+    feat_weather:'मौसम चेतावनी', feat_weather_sub:'बोने, सिंचाई और चेतावनियों के लिए पूर्वानुमान-समझदार सलाह।',
+    feat_market:'बाज़ार मूल्य', feat_market_sub:'बेहतर बिक्री के निर्णय के लिए स्थानीय मंडी मूल्य।',
+    demo_title:'डेमो आज़माएँ — खेत विवरण दर्ज करें', label_district:'जिला', label_taluka:'तालुका / तहसील', label_n:'नाइट्रोजन (N)', label_p:'फॉस्फोरस (P)', label_k:'पोटेशियम (K)', label_ph:'मिट्टी pH',
+    label_cropHistory:'पिछली फसल (वैकल्पिक)', btn_upload:'मिट्टी रिपोर्ट अपलोड करें', btn_recommend:'सुझाव प्राप्त करें', btn_playIntro:'इंट्रो चलाएँ', btn_uploadImg:'फसल छवि अपलोड करें',
+    results_title:'सुझाव', results_intro:'N,P,K और pH भरें और विशिष्ट सलाह देखने के लिए सुझाव प्राप्त करें पर क्लिक करें।', cases_title:'सफलता के उदाहरण',
+    btn_demoMode:'डेमो मोड', contact_team:'टीम लीड:',
+    cta_voiceguide:'वॉइस गाइड',
+    step1_title:'जिला और तहसील बताएं', step2_title:'NPK/pH दें या छोड़ें', step3_title:'सलाह सुनें और सेव करें',
+    market_title:'बाज़ार झलक', weather_title:'मौसम (डेमो)', videos_title:'वीडियो से सीखें', btn_listen:'सुनें',
+    btn_no_soil_modal:'मिट्टी रिपोर्ट नहीं?', weather_tip:'टिप: सलाह सेव करें और अलर्ट सक्षम करें ताकि मौसम चेतावनी मिलें।',
+    seasonality_title:'मौसमी (पंजाब)', season_kharif:'खरीफ (जून–अक्टूबर)', season_rabi:'रबी (नवंबर–मार्च)', season_zaid:'ज़ैद (अप्रैल–जून)',
+    season_kharif_items:'धान, मक्का, कपास, बाजरा', season_rabi_items:'गेहूं, सरसों, चना', season_zaid_items:'सब्जियां, चारा',
+    help_title:'मदद और IVR', help_ivr_head:'टोल-फ्री (डेमो)', help_ivr_text:'हमारे IVR पर कॉल करें, भाषा में सलाह सुनें और SMS/WhatsApp लिंक पाएं।', help_call_now:'अभी कॉल करें',
+    help_assist_head:'पेज पर वॉइस मदद', help_assist_text:'निर्देश और सुझाव सुनने के लिए वॉइस बटन का उपयोग करें।', help_play_voice:'मदद चलाएं',
+    saved_title:'मेरी सलाह',
+    how_title:'यह कैसे काम करता है', how_step1:'अपना स्थान बताएं', how_step1_desc:'जिला और तहसील दर्ज करें। यदि रिपोर्ट नहीं है तो हम क्षेत्रीय मिट्टी डेटा का उपयोग करते हैं।',
+    how_step2:'मिट्टी विवरण जोड़ें (वैकल्पिक)', how_step2_desc:'NPK मान और pH यदि उपलब्ध है, या वॉइस इनपुट का उपयोग करें।',
+    how_step3:'तुरंत सलाह पाएं', how_step3_desc:'फसल सिफारिशें, उर्वरक अंतराल, मौसम चेतावनी और बाजार मूल्य।',
+    faq_title:'अक्सर पूछे जाने वाले प्रश्न', faq_q1:'यदि मिट्टी रिपोर्ट नहीं है?', faq_a1:'हम आपके जिले के लिए क्षेत्रीय मिट्टी डिफॉल्ट का उपयोग करते हैं।',
+    faq_q2:'क्या सलाह मुफ्त है?', faq_a2:'हां, यह छोटे और सीमांत किसानों के लिए मुफ्त डेमो है।',
+    faq_q3:'क्या मैं वॉइस इनपुट का उपयोग कर सकता हूं?', faq_a3:'हां, माइक्रोफोन बटन पर क्लिक करें और अपनी भाषा में बोलें।',
+    faq_q4:'सिफारिशें कितनी सटीक हैं?', faq_a4:'क्षेत्रीय मिट्टी डेटा और कृषि सर्वोत्तम अभ्यासों पर आधारित।',
+    btn_voice_input:'वॉइस इनपुट', voice_listening:'सुन रहे हैं…'
+  },
+  pa: {
+    brand_title:'SmartCrop', brand_sub:'ਸਲਾਹ — SIH 2025 (25010)',
+    nav_home:'ਘਰ', nav_features:'ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ', nav_demo:'ਸਲਾਹ', nav_market:'ਬਜ਼ਾਰ', nav_weather:'ਮੌਸਮ', nav_seasonality:'ਮੌਸਮੀ', nav_cases:'ਸਫਲਤਾ', nav_help:'ਮਦਦ/IVR', nav_contact:'ਸੰਪਰਕ',
+    hero_title:'ਕਿਸਾਨਾਂ ਲਈ ਸਮਾਰਟ ਫਸਲ ਸਲਾਹ', hero_sub:'ਵਾਇਸ, ਚਿੱਤਰ ਅਤੇ ਸਥਾਨਕ-ਭਾਸ਼ਾ ਸਹਾਇਤਾ ਦੇ ਨਾਲ ਨਿੱਜੀ ਸਲਾਹ।',
+    cta_getstarted:'ਮੇਰੀ ਫਸਲ ਸਲਾਹ', cta_nosoil:'ਮੇਰੇ ਕੋਲ ਮਿੱਟੀ ਰਿਪੋਰਟ ਨਹੀਂ ਹੈ', hero_note:'ਜੇ ਤੁਹਾਡੇ ਕੋਲ ਲੈਬ ਰਿਪੋਰਟ ਨਹੀਂ ਹੈ ਤਾਂ ਅਸੀਂ ਮੁਫ਼ਤ ਟੈਸਟ ਲਈ ਬੇਨਤੀ ਜਾਂ ਫੀਲਡ ਟੈਸਟ ਚਲਾਉਣ ਵਿੱਚ ਮਦਦ ਕਰਾਂਗੇ।',
+    features_title:'ਖਾਸੀਅਤਾਂ', feat_soil:'ਮਿੱਟੀ ਜਾਣਕਾਰੀ', feat_soil_sub:'ਤੇਜ਼ ਸਲਾਹ ਲਈ N-P-K ਅਤੇ pH ਦਰਜ ਕਰੋ ਜਾਂ ਜ਼ਿਲ੍ਹਾ ਡਿਫਾਲਟ ਵਰਤੋਂ।',
+    feat_weather:'ਮੌਸਮ ਚੇਤਾਵਨੀ', feat_weather_sub:'ਬੀਜਾਈ, ਸਿੰਚਾਈ ਅਤੇ ਚੇਤਾਵਨੀਆਂ ਲਈ ਅਗਾਹੀ-ਆਧਾਰਿਤ ਸਲਾਹ।',
+    feat_market:'ਬਜ਼ਾਰ ਕੀਮਤਾਂ', feat_market_sub:'ਚੰਗੇ ਵਿਕਰੀ ਫੈਸਲੇ ਲਈ ਸਥਾਨਕ ਮੰਡੀ ਕੀਮਤਾਂ।',
+    demo_title:'ਡੈਮੋ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ — ਖੇਤ ਵੇਰਵਾ ਦਰਜ ਕਰੋ', label_district:'ਜ਼ਿਲ੍ਹਾ', label_taluka:'ਤਲੁਕਾ / ਤਹਸੀਲ', label_n:'ਨਾਈਟ੍ਰੋਜਨ (N)', label_p:'ਫਾਸਫੋਰਸ (P)', label_k:'ਪੋਟਾਸ਼ੀਅਮ (K)', label_ph:'ਮਿੱਟੀ pH',
+    label_cropHistory:'ਪਿਛਲੀ ਫਸਲ (ਔਪਸ਼ਨਲ)', btn_upload:'ਮਿੱਟੀ ਰਿਪੋਰਟ ਅਪਲੋਡ ਕਰੋ', btn_recommend:'ਸਿਫਾਰਸ਼ੀ ਪ੍ਰਾਪਤ ਕਰੋ', btn_playIntro:'ਇੰਟਰੋ ਚਲਾਉ', btn_uploadImg:'ਫ਼ਸਲ ਚਿੱਤਰ ਅਪਲੋਡ ਕਰੋ',
+    results_title:'ਸਿਫਾਰਿਸ਼ਾਂ', results_intro:'N,P,K ਅਤੇ pH ਭਰੋ ਅਤੇ ਵਿਸ਼ੇਸ਼ ਸਲਾਹ ਦੇਖਣ ਲਈ Get Recommendations ’ਤੇ ਕਲਿੱਕ ਕਰੋ।',
+    btn_demoMode:'ਡੈਮੋ ਮੋਡ', contact_team:'ਟੀਮ ਲੀਡ:',
+    cta_voiceguide:'ਆਵਾਜ਼ ਗਾਈਡ',
+    step1_title:'ਜ਼ਿਲ੍ਹਾ ਤੇ ਤਹਸੀਲ ਦੱਸੋ', step2_title:'NPK/pH ਦਿਓ ਜਾਂ ਛੱਡੋ', step3_title:'ਸਲਾਹ ਸੁਣੋ ਤੇ ਸੇਵ ਕਰੋ',
+    market_title:'ਬਜ਼ਾਰ ਝਲਕ', weather_title:'ਮੌਸਮ (ਡੈਮੋ)', videos_title:'ਵੀਡੀਓ ਨਾਲ ਸਿੱਖੋ', btn_listen:'ਸੁਣੋ',
+    btn_no_soil_modal:'ਮਿੱਟੀ ਰਿਪੋਰਟ ਨਹੀਂ?', weather_tip:'ਸਲਾਹ ਸੇਵ ਕਰੋ ਤੇ ਐਲਰਟ ਚਾਲੂ ਕਰੋ ਤਾਂ ਜੋ ਮੌਸਮ ਚੇਤਾਵਨੀ ਮਿਲੇ।',
+    seasonality_title:'ਮੌਸਮੀ (ਪੰਜਾਬ)', season_kharif:'ਖਰੀਫ (ਜੂਨ–ਅਕਤੂਬਰ)', season_rabi:'ਰਬੀ (ਨਵੰਬਰ–ਮਾਰਚ)', season_zaid:'ਜ਼ੈਦ (ਅਪ੍ਰੈਲ–ਜੂਨ)',
+    season_kharif_items:'ਧਾਨ, ਮੱਕੀ, ਕਪਾਹ, ਬਾਜਰਾ', season_rabi_items:'ਗੈਂਹੂ, ਸਰੋਂ, ਚਣਾ', season_zaid_items:'ਸਬਜ਼ੀਆਂ, ਚਾਰਾ',
+    help_title:'ਮਦਦ ਅਤੇ IVR', help_ivr_head:'ਟੋਲ-ਫ੍ਰੀ (ਡੈਮੋ)', help_ivr_text:'ਸਾਡੇ IVR ਤੇ ਕਾਲ ਕਰੋ, ਆਪਣੀ ਭਾਸ਼ਾ ਵਿੱਚ ਸਲਾਹ ਸੁਣੋ ਅਤੇ SMS/WhatsApp ਲਿੰਕ ਪਾਓ।', help_call_now:'ਹੁਣੇ ਕਾਲ ਕਰੋ',
+    help_assist_head:'ਪੇਜ ਉੱਤੇ ਆਵਾਜ਼ ਮਦਦ', help_assist_text:'ਹਦਾਇਤਾਂ ਤੇ ਸਿਫਾਰਸ਼ਾਂ ਸੁਣਨ ਲਈ ਆਵਾਜ਼ ਬਟਨ ਵਰਤੋ।', help_play_voice:'ਮਦਦ ਚਲਾਓ',
+    saved_title:'ਮੇਰੀਆਂ ਸਿਫਾਰਸ਼ਾਂ'
+  },
+  kn: {
+    brand_title:'SmartCrop', brand_sub:'ಸಲಹೆ — SIH 2025 (25010)',
+    nav_home:'ಮುಖಪುಟ', nav_features:'ವೈಶಿಷ್ಟ್ಯಗಳು', nav_demo:'ಸಲಹೆ', nav_market:'ಮಾರುಕಟ್ಟೆ', nav_weather:'ಹವಾಮಾನ', nav_seasonality:'ಋತುಮಾನ', nav_cases:'ಯಶೋಗಾಥೆಗಳು', nav_help:'ಸಹಾಯ/IVR', nav_contact:'ಸಂಪರ್ಕ',
+    hero_title:'ಕೃಷಕರಿಗಾಗಿ ಸ್ಮಾರ್ಟ್ ಕ್ರಾಪ್ ಸಲಹೆ', hero_sub:'ಸ್ವರ, ಚಿತ್ರಗಳು ಮತ್ತು ಸ್ಥಳೀಯ ಭಾಷೆ ಬೆಂಬಲದೊಂದಿಗೆ ವೈಯಕ್ತಿಕ ಸಲಹೆ.',
+    cta_getstarted:'ನನ್ನ ಹೊಲ ಸಲಹೆ', cta_nosoil:'ನನಗೆ ಮಣ್ಣು ವರದಿ ಇಲ್ಲ', hero_note:'ನಿಮ್ಮ ಬಳಿ ಲ್ಯಾಬ್ ವರದಿ ಇಲ್ಲದಿದ್ದರೆ ನಾವು ಉಚಿತ ಪರೀಕ್ಷೆ ಮಾಡಲು ಅಥವಾ ಫೀಲ್ಡ್ ಟೆಸ್ಟ್ ನಡೆಸಲು ಸಹಾಯ ಮಾಡುತ್ತೇವೆ.',
+    features_title:'ಮುಖ್ಯ ವೈಶಿಷ್ಟ್ಯಗಳು', feat_soil:'ಮಣ್ಣು ವಿವರಣೆ', feat_soil_sub:'ತ್ವರಿತ ಸಲಹೆಗಾಗಿ N-P-K ಮತ್ತು pH ನಮೂದಿಸಿ ಅಥವಾ ಜಿಲ್ಲಾ ಡಿಫಾಲ್ಟ್‍ಗಳನ್ನು ಬಳಸಿರಿ.',
+    feat_weather:'ಹವಾಮಾನ ಎಚ್ಚರಿಕೆಗಳು', feat_weather_sub:'ಬೆಳೆ ನೆಡುವುದು, ಜಲಸಿಂಚನೆ ಮತ್ತು ಎಚ್ಚರಿಕೆಗಳಿಗೆ ಪೂರ್ವಾನುಮಾನ ಆಧಾರಿತ ಸಲಹೆಗಳು.',
+    feat_market:'ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು', feat_market_sub:'ಉತ್ತಮ ಮಾರಾಟ ನಿರ್ಧಾರಗಳಿಗೆ ಸ್ಥಳೀಯ ಮಂಕಿ ಬೆಲೆಗಳು.',
+    demo_title:'ಡೆಮೋ ಪ್ರಯತ್ನಿಸಿ — ನಿಮ್ಮ ಹೊಲ ವಿವರಗಳನ್ನು ನಮೂದಿಸಿ', label_district:'ಜಿಲ್ಲೆ', label_taluka:'ತಾಲೂಕು', label_n:'ನೈಟ್ರೋಜನ್ (N)', label_p:'ಫಾಸ್ಫರಸ್ (P)', label_k:'ಪೋಟಾಶಿಯಂ (K)', label_ph:'ಮಣ್ಣು pH',
+    label_cropHistory:'ಕಳೆದ ಬೆಳೆ (ಐಚ್ಛಿಕ)', btn_upload:'ಮಣ್ಣು ರಿಪೋರ್ಟ್ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ', btn_recommend:'ಶಿಫಾರಸುಗಳನ್ನು ಪಡೆಯಿರಿ', btn_playIntro:'ಇಂಟ್ರೋ ಪ್ಲೇ ಮಾಡಿ', btn_uploadImg:'ಬೆಳೆ ಚಿತ್ರದ ಅಪ್‌ಲೋಡ್',
+    results_title:'ಶಿಫಾರಸುಗಳು', results_intro:'N,P,K ಮತ್ತು pH ಭರ್ತಿ ಮಾಡಿ ಮತ್ತು ವಿಶೇಷ ಸಲಹೆಗಾಗಿ Get Recommendations ಒತ್ತಿ.', btn_demoMode:'ಡೆಮೊ ಮೋಡ್', contact_team:'ಟೀಮ್ ಲೀಡ್:',
+    cta_voiceguide:'ವಾಯ್ಸ್ ಗೈಡ್', step1_title:'ಜಿಲ್ಲೆ ಮತ್ತು ತಾಲ್ಲೂಕು ಹೇಳಿ', step2_title:'NPK/pH ನೀಡಿ ಅಥವಾ ಬಿಟ್ಟುಬಿಡಿ', step3_title:'ಸಲಹೆ ಕೇಳಿ ಮತ್ತು ಉಳಿಸಿ',
+    market_title:'ಮಾರುಕಟ್ಟೆ ಚಿತ್ರಣ', weather_title:'ಹವಾಮಾನ (ಡೆಮೋ)', videos_title:'ವೀಡಿಯೊಗಳಿಂದ ಕಲಿಯಿರಿ', btn_listen:'ಕೆಳಿ',
+    btn_no_soil_modal:'ಮಣ್ಣು ವರದಿ ಇಲ್ಲವೇ?', weather_tip:'ಸಲಹೆ ಉಳಿಸಿ ಮತ್ತು ಎಚ್ಚರಿಕೆಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ ಹವಾಮಾನ ಎಚ್ಚರಿಕೆ ಪಡೆಯಲು.',
+    seasonality_title:'ಋತುಮಾನ (ಪಂಜಾಬ್)', season_kharif:'ಖರಿಫ್ (ಜೂನ್–ಅಕ್ಟೋ)', season_rabi:'ರಬಿ (ನವೆಂ–ಮಾರ್ಚ್)', season_zaid:'ಜೈದ್ (ಏಪ್ರಿಲ್–ಜೂನ್)',
+    season_kharif_items:'ಅಕ್ಕಿ, ಜೋಳ, ಹತ್ತಿ, ಬಾಜ್ರಾ', season_rabi_items:'ಗೋಧಿ, ಸಾಸಿವೆ, ಕಡಲೆ', season_zaid_items:'ತರಕಾರಿಗಳು, ಮೇವು',
+    help_title:'ಸಹಾಯ ಮತ್ತು IVR', help_ivr_head:'ಟೋಲ್-ಫ್ರೀ (ಡೆಮೋ)', help_ivr_text:'ನಮ್ಮ IVR ಗೆ ಕರೆ ಮಾಡಿ, ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ ಸಲಹೆ ಕೇಳಿ ಮತ್ತು SMS/WhatsApp ಲಿಂಕ್ ಪಡೆಯಿರಿ.', help_call_now:'ಈಗ ಕರೆ ಮಾಡಿ',
+    help_assist_head:'ಪುಟದಲ್ಲಿ ವಾಯ್ಸ್ ಸಹಾಯ', help_assist_text:'ಸೂಚನೆಗಳು ಮತ್ತು ಶಿಫಾರಸುಗಳನ್ನು ಕೇಳಲು ವಾಯ್ಸ್ ಬಟನ್ ಬಳಸಿ.', help_play_voice:'ಸಹಾಯ ಪ್ಲೇ ಮಾಡಿ',
+    saved_title:'ನನ್ನ ಸಲಹೆಗಳು'
+  },
+  te: {
+    brand_title:'SmartCrop', brand_sub:'సలహా — SIH 2025 (25010)',
+    nav_home:'హోమ్', nav_features:'ఫీచర్స్', nav_demo:'సలహా', nav_market:'మార్కెట్', nav_weather:'వాతావరణం', nav_seasonality:'రుతుపవనాలు', nav_cases:'విజయాలు', nav_help:'సహాయం/IVR', nav_contact:'సంప్రదించండి',
+    hero_title:'రైతుల కోసం స్మార్ట్ పంట సలహా', hero_sub:'వాయిస్, చిత్రాలు మరియు స్థానిక భాషా మద్దతుతో వ్యక్తిగత సలహాలు.',
+    cta_getstarted:'నా పంట సలహా', cta_nosoil:'నాకు మట్టి రిపోర్ట్ లేదు', hero_note:'మీకు ల్యాబ్ రిపోర్ట్ లేకపోతే మేము ఉచిత పరీక్ష కోసం అభ్యర్థన చేయడానికి లేదా ఫీల్డ్ టెస్ట్ నిర్వహించడానికి సహాయపడతాం.',
+    features_title:'ముఖ్య లక్షణాలు', feat_soil:'మట్టి పరిజ్ఞానం', feat_soil_sub:'వేగవంతమైన సలహాకు N-P-K మరియు pH నమోదు చేయండి లేదా జిల్లా డిఫాల్ట్స్ ఉపయోగించండి.',
+    feat_weather:'వాతావరణ హెచ్చరికలు', feat_weather_sub:'విత్తనాలు, సిఞ্চాయి మరియు హెచ్చరికల గురించి సూచనలు.',
+    feat_market:'మార్కెట్ ధరలు', feat_market_sub:'ఉత్తమ అమ్మకాలకు స్థానిక మార్కెట్ ధరలను చూడండి.',
+    demo_title:'డెమో ప్రయత్నించండి — మీ ప్రదేశ వివరాలను నమోదు చేయండి', label_district:'జిల్లా', label_taluka:'తాలూకా', label_n:'నైట్రోజన్ (N)', label_p:'ఫాస్ఫరస్ (P)', label_k:'పొటాషియం (K)', label_ph:'మట్టి pH',
+    label_cropHistory:'మునుపటి పంట (ఐచ్ఛిక)', btn_upload:'మట్టి రిపోర్ట్ అప్లోడ్ చేయండి', btn_recommend:'శిఫార్సులు పొందండి', btn_playIntro:'ఇంట్రొ ప్లే చేయండి', btn_uploadImg:'పంట చిత్రం అప్లోడ్ చేయండి',
+    results_title:'శిఫార్సులు', results_intro:'N,P,K మరియు pH నింపి Get Recommendations నొక్కండి ప్రత్యేక సలహాల కోసం.', btn_demoMode:'డెమో మోడ్', contact_team:'జట్టు నేత:',
+    cta_voiceguide:'వాయిస్ గైడ్', step1_title:'జిల్లా & తాలూకా చెప్పండి', step2_title:'NPK/pH ఇవ్వండి లేదా వదలండి', step3_title:'సలహా వినండి & సేవ్ చేయండి',
+    market_title:'మార్కెట్ స్నాప్షాట్', weather_title:'వాతావరణం (డెమో)', videos_title:'వీడియోలతో నేర్చుకోండి', btn_listen:'వినండి',
+    btn_no_soil_modal:'మట్టి రిపోర్ట్ లేదా?', weather_tip:'సలహా సేవ్ చేయండి మరియు అలర్ట్‌లను ఆన్ చేయండి, వాతావరణ హెచ్చరికలు రావడానికి.',
+    seasonality_title:'రుతుపవనాలు (పంజాబ్)', season_kharif:'ఖరీఫ్ (జూన్–అక్టోబర్)', season_rabi:'రబీ (నవం–మార్చి)', season_zaid:'జెయిడ్ (ఏప్రిల్–జూన్)',
+    season_kharif_items:'వరి, మక్కజొన్న, పత్తి,బజ్రా', season_rabi_items:'గోధుమ, ఆవాలు, శనగ', season_zaid_items:'కూరగాయలు, పశుగ్రాసం',
+    help_title:'సహాయం & IVR', help_ivr_head:'టోల్-ఫ్రీ (డెమో)', help_ivr_text:'మా IVR కు కాల్ చేసి, మీ భాషలో సలహా వినండి మరియు SMS/WhatsApp లింక్ పొందండి.', help_call_now:'ఇప్పుడు కాల్ చేయండి',
+    help_assist_head:'పేజీలో వాయిస్ సహాయం', help_assిస్ట_text:'సూచనలు మరియు సూచనలను వినడానికి వాయిస్ బటన్ వాడండి.', help_play_voice:'హెల్ప్ ప్లే చేయండి',
+    saved_title:'నా సలహాలు'
+  }
+};
+
+/* placeholders (for inputs) */
+const placeholders = {
+  en:{ district:'e.g. Patiala', taluk:'e.g. Samana', nitrogen:'20', phosphorus:'15', potassium:'30', ph:'6.8', lastCrop:'e.g. Wheat'},
+  hi:{ district:'उदा. पाटियाला', taluk:'उदा. समाना', nitrogen:'20', phosphorus:'15', potassium:'30', ph:'6.8', lastCrop:'उदा. गेहूं'},
+  pa:{ district:'ਉਦਾਹਰਣ: ਪਟਿਆਲਾ', taluk:'ਉਦਾਹਰਣ: ਸਮਾਨਾ', nitrogen:'20', phosphorus:'15', potassium:'30', ph:'6.8', lastCrop:'ਉਦਾਹਰਣ: ਗੇਹੂੰ'},
+  kn:{ district:'ಉದಾ. ಪಟಿಯಾಲ', taluk:'ಉದಾ. ಸಮನಾ', nitrogen:'20', phosphorus:'15', potassium:'30', ph:'6.8', lastCrop:'ಉದಾ. ಗೋಧಿ'},
+  te:{ district:'ఉదా. పటియాల', taluk:'ఉదా. సమానా', nitrogen:'20', phosphorus:'15', potassium:'30', ph:'6.8', lastCrop:'ఉదా. గోధుమ'}
+};
+
+function applyLanguage(lang){
+  if(!i18n[lang]) lang='en';
+  const dict = i18n[lang];
+
+  // translate all elements which have `data-i18n`
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(key && dict[key] !== undefined){
+      el.textContent = dict[key];
+    }
+  });
+
+  // update placeholders
+  const ph = placeholders[lang] || placeholders.en;
+  const setIf = (id, val) => { const el = document.getElementById(id); if(el) el.placeholder = val; };
+  setIf('district', ph.district);
+  setIf('taluk', ph.taluk);
+  setIf('nitrogen', ph.nitrogen);
+  setIf('phosphorus', ph.phosphorus);
+  setIf('potassium', ph.potassium);
+  setIf('ph', ph.ph);
+  setIf('lastCrop', ph.lastCrop);
+
+  // set html lang attribute for accessibility
+  document.documentElement.lang = lang;
+}
+
+/* Wait for DOM ready then wire events */
+document.addEventListener('DOMContentLoaded', () => {
+  const langSelect = document.getElementById('langSelect');
+  applyLanguage(langSelect.value || 'en'); // initial
+
+  langSelect.addEventListener('change', (e) => {
+    applyLanguage(e.target.value);
+  });
+
+  // play intro audio
+  document.getElementById('playIntroBtn').addEventListener('click', ()=>{
+    const lang = document.getElementById('langSelect').value || 'en';
+    const map = {en:'audioIntro_en', hi:'audioIntro_hi', pa:'audioIntro_pa', kn:'audioIntro_kn', te:'audioIntro_te'};
+    const audio = document.getElementById(map[lang] || 'audioIntro_en');
+    if(audio){ audio.currentTime = 0; audio.play().catch(()=>alert('Audio file missing. Place MP3s in assets/audio/'));}
+  });
+
+  // voice guide button (TTS)
+  const voiceGuideBtn = document.getElementById('voiceGuideBtn');
+  if(voiceGuideBtn){
+    voiceGuideBtn.addEventListener('click', ()=>{
+      const lang = document.getElementById('langSelect').value || 'en';
+      const text = i18n[lang]?.hero_note || i18n.en.hero_note;
+      speakText(text, lang);
+    });
+  }
+
+  // notify button (whatsapp)
+  const notifyBtn = document.getElementById('notifyBtn');
+  if(notifyBtn){
+    notifyBtn.addEventListener('click', ()=>{
+      const phone = prompt('Enter farmer phone number (with country code, e.g. 919812345678):');
+      if(!phone) return;
+      const msg = encodeURIComponent('SmartCrop advisory: recommendation for your field is available. Please check the app or contact local extension.');
+      window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+    });
+  }
+
+  // Listen (TTS) for recommendation
+  const ttsBtn = document.getElementById('ttsBtn');
+  if(ttsBtn){
+    ttsBtn.addEventListener('click', ()=>{
+      const crop = document.getElementById('recCrop')?.innerText || '';
+      const fert = document.getElementById('recFert')?.innerText || '';
+      const pest = document.getElementById('recPest')?.innerText || '';
+      const text = `${crop}. ${fert}. ${pest}.`;
+      const lang = document.getElementById('langSelect').value || 'en';
+      speakText(text, lang);
+    });
+  }
+
+  // Help play voice
+  const helpPlay = document.getElementById('helpPlay');
+  if(helpPlay){
+    helpPlay.addEventListener('click', ()=>{
+      const lang = document.getElementById('langSelect').value || 'en';
+      const text = i18n[lang]?.results_intro || i18n.en.results_intro;
+      speakText(text, lang);
+    });
+  }
+
+  // Voice input (speech-to-text) for form fields
+  const micBtn = document.getElementById('voiceInputBtn');
+  const micStatus = document.getElementById('voiceStatus');
+  let recognition = null;
+  if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SR();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    micBtn?.addEventListener('click', ()=>{
+      try{
+        const lang = document.getElementById('langSelect').value || 'en';
+        const map = {en:'en-IN', hi:'hi-IN', pa:'pa-IN', kn:'kn-IN', te:'te-IN'};
+        recognition.lang = map[lang] || 'en-IN';
+        recognition.start();
+        if(micStatus) micStatus.style.display = 'inline';
+      }catch(e){ alert('Speech recognition not available on this device.'); }
+    });
+    recognition.onresult = (event)=>{
+      const transcript = (event.results?.[0]?.[0]?.transcript || '').trim();
+      if(!transcript){ if(micStatus) micStatus.style.display = 'none'; return; }
+      // simple heuristic: fill the first empty field
+      const order = ['district','taluk','nitrogen','phosphorus','potassium','ph','lastCrop'];
+      for(const id of order){
+        const el = document.getElementById(id);
+        if(!el) continue;
+        if(el.value) continue;
+        el.value = transcript;
+        break;
+      }
+      if(micStatus) micStatus.style.display = 'none';
+    };
+    recognition.onerror = ()=>{ if(micStatus) micStatus.style.display = 'none'; };
+    recognition.onend = ()=>{ if(micStatus) micStatus.style.display = 'none'; };
+  }else{
+    if(micBtn){ micBtn.disabled = true; micBtn.title = 'Speech recognition not supported in this browser'; }
+  }
+
+  // No-soil helper button
+  const noSoil = document.getElementById('noSoilBtn');
+  if(noSoil){
+    noSoil.addEventListener('click', openNoSoil);
+  }
+
+  // form submit -> demo recommendation
+  const form = document.getElementById('adviceForm');
+  if(form){
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      startProgress();
+      setProgress(25, 'Collecting inputs');
+      // collect inputs
+      const district = document.getElementById('district').value || '';
+      const taluk = document.getElementById('taluk').value || '';
+      const n = document.getElementById('nitrogen').value;
+      const p = document.getElementById('phosphorus').value;
+      const k = document.getElementById('potassium').value;
+      const phVal = document.getElementById('ph').value;
+      const lastCrop = document.getElementById('lastCrop').value;
+      // Prefer backend; fallback to local rules if backend unavailable
+      let rec = null;
+      if(window.recommendViaBackend){
+        rec = await window.recommendViaBackend(district, taluk, n, p, k, phVal, lastCrop);
+      }
+      if(!rec){
+        rec = await recommendByFallback(district, taluk, n, p, k, phVal, lastCrop);
+      }
+      setProgress(75, 'Loading data');
+      showRecommendation(rec);
+      // Populate weather + market from backend if available
+      if(district){
+        if(window.loadWeatherFromBackend) window.loadWeatherFromBackend(district);
+        if(window.loadMarketFromBackend) window.loadMarketFromBackend(district);
+      }
+    });
+  }
+
+  // Render saved advisories at startup
+  renderSaved();
+  const clearBtn = document.getElementById('clearSaved');
+  if(clearBtn){
+    clearBtn.addEventListener('click', ()=>{
+      try{
+        localStorage.removeItem('smartcrop_saved');
+        renderSaved();
+      }catch(e){}
+    });
+  }
+
+  // Voice navigation
+  const voiceNavBtn = document.getElementById('voiceNavBtn');
+  if(voiceNavBtn){
+    voiceNavBtn.addEventListener('click', ()=>{
+      if(window.startVoiceNavigation) window.startVoiceNavigation();
+    });
+  }
+
+  // Phone alerts
+  const phoneBtn = document.getElementById('phoneBtn');
+  if(phoneBtn){
+    phoneBtn.addEventListener('click', ()=>{
+      if(window.collectPhoneForAlerts) window.collectPhoneForAlerts();
+    });
+  }
+
+  // Load Punjab districts
+  async function loadPunjabDistricts(){
+    try{
+      const res = await fetch('../assets/data/punjab_districts.json');
+      const data = await res.json();
+      const select = document.getElementById('district');
+      if(select && data.districts){
+        data.districts.forEach(district => {
+          const option = document.createElement('option');
+          option.value = district.name.toLowerCase();
+          option.textContent = `${district.name} (${district.region})`;
+          select.appendChild(option);
+        });
+      }
+    }catch(e){
+      console.log('Could not load districts:', e);
+    }
+  }
+  loadPunjabDistricts();
+
+  // Prefer backend market/weather on initial load; fallback to demo loaders
+  startProgress();
+  setProgress(38, 'Initializing');
+  (async () => {
+    try{
+      if(window.loadMarketFromBackend){
+        await window.loadMarketFromBackend(); // fills #marketTableMain with up to 10 rows
+      } else if(window.loadLiveMarketData){
+        window.loadLiveMarketData();
+      } else {
+        loadMarketDataMain();
+      }
+    }catch(e){
+      try{ loadMarketDataMain(); }catch(_){}
+    }
+    try{
+      const defaultDistrict = 'patiala';
+      if(window.loadWeatherFromBackend){
+        await window.loadWeatherFromBackend(defaultDistrict);
+      } else {
+        // legacy demo path using OpenWeather key (may show placeholder)
+        fetchWeatherAndAlerts(defaultDistrict);
+      }
+    }catch(_){}
+  })();
+  // mirror weather into main box
+  const districtDefault = 'Patiala';
+  fetchWeatherAndAlerts(districtDefault).then(()=>{
+    const w = document.getElementById('weatherBox')?.innerText || '';
+    const main = document.getElementById('weatherBoxMain');
+    if(main) main.innerText = w;
+    setProgress(60, 'Weather ready');
+    setTimeout(()=>{ setProgress(100, 'Ready'); completeProgress(); }, 600);
+  });
+
+  // Lazy-load YouTube iframes when visible
+  try{
+    const iframes = document.querySelectorAll('iframe[data-src]');
+    if('IntersectionObserver' in window){
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            const el = entry.target;
+            el.src = el.getAttribute('data-src');
+            io.unobserve(el);
+          }
+        });
+      }, { rootMargin: '200px' });
+      iframes.forEach(el=>io.observe(el));
+    }else{
+      iframes.forEach(el=>{ el.src = el.getAttribute('data-src'); });
+    }
+  }catch(e){ /* no-op */ }
+});
+
+/* ------------- Demo fallback engine & helpers ------------- */
+const districtSoilMap = {
+  'patiala':'alluvial', 'ludhiana':'alluvial', 'amritsar':'loamy', 'jalandhar':'alluvial', 'fazilka':'sandy'
+};
+
+async function recommendByFallback(district, taluk, n,p,k,phVal,lastCrop){
+  const d = (district||'').toLowerCase().trim();
+  let soilType = districtSoilMap[d] || 'alluvial';
+  let seasonal = { kharif: [], rabi: [] };
+  try{
+    const res = await fetch('../assets/data/punjab_soil.json', { cache:'force-cache' });
+    const data = await res.json();
+    if(data[d]){
+      soilType = data[d].soilType || soilType;
+      seasonal = { kharif: data[d].kharif||[], rabi: data[d].rabi||[] };
+    }
+  }catch(e){ /* keep fallback */ }
+  let crop = seasonal.kharif[0] || 'Maize';
+  if(soilType === 'sandy') crop = 'Pearl Millet (Bajra)';
+  if(soilType === 'loamy') crop = seasonal.kharif[0] || 'Rice';
+  if(lastCrop && lastCrop.toLowerCase().includes('wheat')) crop = 'Wheat (rotation)';
+  const target = {N:40,P:30,K:30};
+  const needN = Math.max(0, target.N - (Number(n)||0));
+  const needP = Math.max(0, target.P - (Number(p)||0));
+  const needK = Math.max(0, target.K - (Number(k)||0));
+  return {
+    crop, soilType, needN, needP, needK,
+    pestTip: 'Monitor for common pests; use neem-based spray if early signs appear.',
+    reason: `Using regional defaults (${soilType})${seasonal.kharif.length ? ', kharif: ' + seasonal.kharif.slice(0,3).join('/') : ''}.`,
+    district: district
+  };
+}
+
+function showRecommendation(rec){
+  document.getElementById('resultsIntro').style.display = 'none';
+  document.getElementById('recContent').style.display = 'block';
+  document.getElementById('recCrop').innerText = `Top pick: ${rec.crop}`;
+  document.getElementById('recDesc').innerText = rec.reason;
+  document.getElementById('recFert').innerText = `Fertilizer gap (demo): N ${rec.needN} kg/ha, P ${rec.needP} kg/ha, K ${rec.needK} kg/ha.`;
+  document.getElementById('recPest').innerText = rec.pestTip;
+  // Optionally change image based on crop (demo)
+  // document.getElementById('recCropImg').src = `../assets/images/${rec.crop.toLowerCase().split(' ')[0]}.jpg`;
+  // load market & weather
+  loadMarketData();
+  fetchWeatherAndAlerts(rec.district || 'Patiala');
+  // copy latest weather text to main box as well
+  setTimeout(()=>{
+    const w = document.getElementById('weatherBox')?.innerText || '';
+    const main = document.getElementById('weatherBoxMain');
+    if(main) main.innerText = w;
+  }, 800);
+
+  // Save to localStorage
+  try{
+    const key = 'smartcrop_saved';
+    const saved = JSON.parse(localStorage.getItem(key) || '[]');
+    saved.unshift({ ts: Date.now(), rec });
+    localStorage.setItem(key, JSON.stringify(saved.slice(0, 10)));
+    renderSaved();
+  }catch(e){ /* ignore */ }
+  setProgress(100, 'Done');
+  setTimeout(()=>completeProgress(), 500);
+}
+
+/* Market CSV loader (demo) */
+async function loadMarketData(){
+  const table = document.getElementById('marketTable');
+  try{
+    const text = await fetchMarketCsvCached('../assets/samples/sample_market.csv');
+    const lines = text.trim().split('\n').slice(1);
+    if(lines.length===0){ table.innerText = 'No market data'; return; }
+    let html = '<table class="table table-sm"><thead><tr><th>mandi</th><th>commodity</th><th>price</th></tr></thead><tbody>';
+    lines.slice(-10).forEach(l=>{
+      const [date, mandi, commodity, price] = l.split(',');
+      html += `<tr><td>${mandi}</td><td>${commodity}</td><td>₹ ${price}</td></tr>`;
+    });
+    html += '</tbody></table>';
+    table.innerHTML = html;
+  }catch(err){
+    table.innerHTML = '<div class="text-danger small">Market data unavailable (demo).</div>';
+  }
+}
+
+/* Market loader for main section */
+async function loadMarketDataMain(){
+  const table = document.getElementById('marketTableMain');
+  if(!table) return;
+  try{
+    const text = await fetchMarketCsvCached('../assets/samples/sample_market.csv');
+    const lines = text.trim().split('\n').slice(1);
+    if(lines.length===0){ table.innerText = 'No market data'; return; }
+    let html = '<table class="table table-sm"><thead><tr><th>Date</th><th>Mandi</th><th>Commodity</th><th>Price</th></tr></thead><tbody>';
+    lines.slice(-15).reverse().forEach(l=>{
+      const [date, mandi, commodity, price] = l.split(',');
+      html += `<tr><td>${date}</td><td>${mandi}</td><td>${commodity}</td><td>₹ ${price}</td></tr>`;
+    });
+    html += '</tbody></table>';
+    table.innerHTML = html;
+  }catch(err){
+    table.innerHTML = '<div class="text-danger small">Market data unavailable (demo).</div>';
+  }
+}
+
+// Simple in-memory cache for market CSV to avoid multiple network fetches
+let __marketCsvCache = null;
+async function fetchMarketCsvCached(url){
+  if(__marketCsvCache) return __marketCsvCache;
+  const res = await fetch(url, { cache: 'force-cache' });
+  const text = await res.text();
+  __marketCsvCache = text;
+  return text;
+}
+
+/* Weather (demo) - configure OPENWEATHERMAP_API_KEY if you want live data */
+const OPENWEATHERMAP_API_KEY = ''; // add your key here to enable live weather
+async function fetchWeatherAndAlerts(district){
+  const box = document.getElementById('weatherBox');
+  if(!OPENWEATHERMAP_API_KEY){
+    box.innerText = 'Weather demo: API key not configured. Add OpenWeatherMap key in JS to enable live weather.';
+    return;
+  }
+  try{
+    const q = encodeURIComponent(district + ',IN');
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${q}&units=metric&appid=${OPENWEATHERMAP_API_KEY}`;
+    const r = await fetch(url);
+    if(!r.ok) throw new Error('Weather fetch failed');
+    const data = await r.json();
+    const temp = data.main.temp;
+    const wind = data.wind.speed;
+    const rain = (data.rain && (data.rain['1h'] || data.rain['3h'])) || 0;
+    let alertText = `Current: ${temp}°C, Wind ${wind} m/s`;
+    if(rain > 5) alertText += ' — Rain expected';
+    if(temp < 5) alertText += ' — Cold alert';
+    if(temp > 38) alertText += ' — Heat alert';
+    if(wind > 12) alertText += ' — High wind alert';
+    box.innerText = alertText;
+  }catch(e){
+    box.innerText = 'Weather info unavailable (check API key).';
+  }
+}
+
+/* No-soil flows (simple demo prompts) */
+function openNoSoil(){
+  const modal = document.getElementById('noSoilModal');
+  if(!modal) return;
+  const m = bootstrap.Modal.getOrCreateInstance(modal);
+  m.show();
+}
+
+function renderSaved(){
+  const box = document.getElementById('savedList');
+  const count = document.getElementById('savedCount');
+  if(!box) return;
+  try{
+    const key = 'smartcrop_saved';
+    const saved = JSON.parse(localStorage.getItem(key) || '[]');
+    if(count) count.textContent = `${saved.length} saved`;
+    if(!saved.length){ box.innerText = 'No saved advisories yet.'; return; }
+    let html = '<div class="table-responsive"><table class="table table-sm"><thead><tr><th>When</th><th>Crop</th><th>Fert gap</th><th>Soil</th></tr></thead><tbody>';
+    saved.forEach(item=>{
+      const dt = new Date(item.ts).toLocaleString();
+      html += `<tr><td>${dt}</td><td>${item.rec.crop}</td><td>N ${item.rec.needN} P ${item.rec.needP} K ${item.rec.needK}</td><td>${item.rec.soilType}</td></tr>`;
+    });
+    html += '</tbody></table></div>';
+    box.innerHTML = html;
+  }catch(e){ box.innerText = '—'; }
+}
+
+// Progress helpers
+let __progressTimer = null;
+let __progressAuto = null;
+let __progressCurrent = 0;
+function startProgress(){
+  const bar = document.getElementById('appProgress');
+  const pb = document.getElementById('appProgressBar');
+  if(!bar || !pb) return;
+  bar.style.display = 'block';
+  pb.style.width = '0%';
+  __progressCurrent = 0;
+  const recTxt = document.getElementById('recProgressText');
+  if(recTxt){ recTxt.style.display = 'inline'; recTxt.textContent = '0%'; }
+  // auto advance until 90%
+  clearInterval(__progressAuto);
+  __progressAuto = setInterval(() => {
+    if(__progressCurrent >= 90){ clearInterval(__progressAuto); return; }
+    setProgress(__progressCurrent + 1);
+  }, 120);
+}
+function setProgress(pct, label){
+  const pb = document.getElementById('appProgressBar');
+  __progressCurrent = Math.max(0, Math.min(100, pct));
+  if(pb){ pb.style.width = __progressCurrent + '%'; pb.setAttribute('aria-valuenow', String(__progressCurrent)); }
+  const recTxt = document.getElementById('recProgressText');
+  if(recTxt){ recTxt.textContent = Math.round(__progressCurrent) + '%'; }
+}
+function completeProgress(){
+  const bar = document.getElementById('appProgress');
+  if(!bar) return;
+  clearTimeout(__progressTimer);
+  clearInterval(__progressAuto);
+  setProgress(100);
+  __progressTimer = setTimeout(()=>{ bar.style.display = 'none'; }, 800);
+}
+
+/* Simple Text-To-Speech for low-literacy support */
+// Voice selection helpers for better non-English TTS
+let __voices = [];
+function loadVoices(){
+  try{
+    __voices = speechSynthesis.getVoices() || [];
+  }catch(e){ __voices = []; }
+}
+if('speechSynthesis' in window){
+  loadVoices();
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+}
+function pickVoiceForLang(lang){
+  const langMap = { en:'en', hi:'hi', pa:'pa', kn:'kn', te:'te' };
+  const prefix = langMap[lang] || 'en';
+  // exact match like hi-IN, pa-IN, kn-IN, te-IN
+  let v = __voices.find(v=> (v.lang||'').toLowerCase().startsWith(prefix+'-'));
+  if(v) return v;
+  // any voice with same language prefix
+  v = __voices.find(v=> (v.lang||'').toLowerCase().startsWith(prefix));
+  if(v) return v;
+  // fallback to any Indian English, then any English
+  v = __voices.find(v=> (v.lang||'').toLowerCase().startsWith('en-in')) || __voices.find(v=> (v.lang||'').toLowerCase().startsWith('en'));
+  return v || null;
+}
+function speakText(text, lang){
+  try{
+    if(!('speechSynthesis' in window)) return;
+    const clean = (text||'').toString().trim();
+    if(!clean) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(clean);
+    const map = {en:'en-IN', hi:'hi-IN', pa:'pa-IN', kn:'kn-IN', te:'te-IN'};
+    utter.lang = map[lang] || 'en-IN';
+    const v = pickVoiceForLang(lang);
+    if(v) utter.voice = v;
+    utter.rate = 0.95;
+    speechSynthesis.speak(utter);
+  }catch(e){/* no-op */}
+  }
+</script>
+<!-- No Soil Report Modal -->
+<div class="modal fade" id="noSoilModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title" data-i18n="nos_modal_title">No soil report? Choose an option</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-grid gap-2">
+          <button class="btn btn-outline-primary d-flex align-items-center justify-content-center gap-2" id="nos_request">
+            <i class="bi bi-clipboard-check"></i><span data-i18n="nos_request">Request free test (demo)</span>
+          </button>
+          <button class="btn btn-outline-success d-flex align-items-center justify-content-center gap-2" id="nos_diy">
+            <i class="bi bi-flask"></i><span data-i18n="nos_diy">DIY quick pH test</span>
+          </button>
+          <button class="btn btn-outline-secondary d-flex align-items-center justify-content-center gap-2" id="nos_rough">
+            <i class="bi bi-journal-text"></i><span data-i18n="nos_rough">Give rough details now</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="btn_close">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+// Wire modal actions
+document.addEventListener('DOMContentLoaded', ()=>{
+  const req = document.getElementById('nos_request');
+  const diy = document.getElementById('nos_diy');
+  const rough = document.getElementById('nos_rough');
+  if(req){ req.addEventListener('click', ()=>{ alert('Request submitted (demo). KVK will contact if available.'); }); }
+  if(diy){ diy.addEventListener('click', ()=>{ alert('DIY: Take soil from 4 spots, mix, use pH strip and compare color. Enter approx pH on form.'); }); }
+  if(rough){ rough.addEventListener('click', ()=>{ alert('Fill district/taluk and last crop; we will use regional defaults.'); }); }
+});
+</script>
+<!-- Removed duplicate i18next integration to avoid conflicts with built-in i18n -->
+
+</body>
+</html>

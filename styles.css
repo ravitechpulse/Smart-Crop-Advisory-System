@@ -1,0 +1,78 @@
+/* Basic polish for spacing, typography, images, and accessibility */
+:root{
+  --sc-spacing: 1rem;
+}
+
+html, body{ scroll-behavior:smooth; }
+body{ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+.lang-select{ min-width: 120px; }
+
+.feature-img{ height: 180px; object-fit: cover; }
+.case-img{ height: 200px; object-fit: cover; }
+
+.result-card{ min-height: 340px; }
+
+/* Increase hit area for primary CTAs */
+.btn.btn-lg{ padding-left: 1.25rem; padding-right: 1.25rem; }
+
+/* Focus-visible for keyboard users */
+:focus-visible{
+  outline: 3px solid #0d6efd; outline-offset: 2px;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .progress-bar-animated{ animation: none; }
+}
+:root{
+  --accent:#0b6b3a;
+  --muted:#6c757d;
+  --bg:#f7f9fb;
+  --card:#fff;
+  --radius:12px;
+}
+*{box-sizing:border-box}
+body{
+  font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:var(--bg);
+  color:#1f2937;
+  margin:0;
+  padding-top:74px; /* navbar offset */
+}
+
+/* NAV */
+.navbar { background: #fff; }
+.navbar-brand img{ object-fit:cover; border-radius:8px; }
+
+/* HERO */
+#hero{ padding:48px 0; }
+#hero .display-5{ color:#0d3b25; }
+#hero .lead{ color:var(--muted); }
+
+/* Buttons */
+.btn-primary{ background:var(--accent); border:0; box-shadow:0 8px 20px rgba(11,107,58,0.07); }
+.btn-outline-secondary{ color:var(--accent); border-color:rgba(11,107,58,0.18); }
+
+/* Cards */
+.card{ border-radius:var(--radius); border:none; overflow:hidden; }
+.feature-img{ height:180px; width:100%; object-fit:cover; border-top-left-radius:var(--radius); border-top-right-radius:var(--radius); }
+.case-img{ height:220px; width:100%; object-fit:cover; border-top-left-radius:var(--radius); border-top-right-radius:var(--radius); }
+
+/* Result */
+.result-card{ border-left:6px solid var(--accent); padding:18px; }
+
+/* Utilities */
+.small{ color:var(--muted); }
+.lead{ font-size:1.05rem; }
+.container{ max-width:1150px; }
+
+/* Responsive tweaks */
+@media(max-width:767px){
+  .feature-img{ height:140px; }
+  .case-img{ height:160px; }
+  .container{ padding-left:16px; padding-right:16px; }
+}
+
+/* Footer */
+footer{ background:transparent; margin-top:26px; color:var(--muted); }
